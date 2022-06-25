@@ -1,0 +1,8 @@
+<p-card header="Summary">
+  <div class="font-bold">Total Question: {{getTotalQuestion()}}</div>
+  <div class="font-bold text-blue-600">Correct: {{getTotalCorrectAnswers()}}</div>
+  <div class="font-bold text-red-600">Wrong: {{getTotalQuestion()-getTotalCorrectAnswers()}}</div>
+  <div class="font-bold" [ngClass]="getTotalCorrectAnswers()/getTotalQuestion()>0.7 ? 'text-green-600' : 'text-red-600'" >Percentage: {{getTotalCorrectAnswers()/getTotalQuestion() | percent}}</div>
+  <div>&nbsp;</div>
+  <div class="font-bold">Time: <b [chronometer]="chronometer"></b> </div>
+</p-card>

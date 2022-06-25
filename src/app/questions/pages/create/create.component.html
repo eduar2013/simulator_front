@@ -1,0 +1,86 @@
+
+<p-panel header="Create Question" styleClass="m-4">
+
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit(createForm)" class="p-fluid p-grid">
+
+          <div class="field col-12 grid">
+            <div class="field col-6">
+            <span class="p-float-label">
+              <input id="number" type="text" formControlName="number" pInputText>
+              <label for="number">Number</label>
+            </span>
+          </div>
+          <div class="field col-6">
+            <span class="p-float-label">
+              <p-dropdown [options]="topics" formControlName="selectedTopic" optionLabel="topic" optionValue="code"></p-dropdown>
+              <label for="topic">Topic</label>
+            </span>
+          </div>
+        </div>
+
+          <div class="field col-12">
+            <span class="p-float-label">
+              <textarea inputId="textarea" rows="8" style="resize: none;" cols="5000" formControlName="text_question" pInputTextarea></textarea>
+              <label for="textarea">Text Question</label>
+            </span>
+          </div>
+
+          <div class="field col-12">
+            <span class="p-float-label">
+              <input id="objetive" type="text" formControlName="objective" pInputText>
+              <label for="objective">Objective</label>
+            </span>
+          </div>
+
+          <div class="field col-12">
+
+          <p-table [value]="answers.controls">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Answer</th>
+                    <th>Valid</th>
+                    <th>Add/Remove</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body"  let-rowData let-rowIndex="rowIndex"  let-last >
+              <ng-container formArrayName="answers">
+                <tr [formGroupName]="rowIndex">
+                    <td>
+                          <input class="form-control form-control-sm" type="text" id="answer"
+                            formControlName="answer" />
+                      </td>
+                      <td>
+                          <input class="form-control form-control-sm" type="text" id="valid"
+                            formControlName="valid" />
+                      </td>
+                      <td>
+
+                        <button pButton pRipple type="button"
+                                     icon="pi pi-plus"
+                                     class="p-button-rounded p-button-text"
+                                     (click)="addAnswerClick()"></button>
+                        <button pButton pRipple type="button"
+                                     icon="pi pi-trash"
+                                     class="p-button-rounded p-button-text p-button-danger"
+                                     (click)="deleteAnswerClick(rowIndex)"></button>
+
+
+
+                    </td>
+                </tr>
+              </ng-container>
+
+          </ng-template>
+        </p-table>
+      </div>
+
+
+
+
+          <div>
+          <button type="submit">Create</button>
+          </div>
+
+  </form>
+
+</p-panel>

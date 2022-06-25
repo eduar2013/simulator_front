@@ -1,0 +1,50 @@
+<div class="grid">
+  <div class="col-10" >
+<p-fieldset legend="Question {{getCurrentQuestion()}} / {{getNumberOfQuestion()}}"  styleClass="mt-3 ml-3 h-30rem max-h-full overflow-y-scroll" >
+
+ <div *ngFor="let text of getQuestion().text_question; index as i; first as isFirst">
+     <span style="font-family: Courier New;">{{text|formatCode}}</span>
+  </div>
+
+  <h4></h4>
+
+  <div *ngFor="let response of getQuestion().answers" class="field-checkbox" >
+      <p-checkbox name="group1" value="{{response.option}}" [(ngModel)]="selectedAnswers" inputId="{{response.option}}"></p-checkbox>
+       <label for="{{response.option}}">
+        <div *ngFor="let description of response.description; index as i; first as isFirst">
+          <span style="font-family: Courier New;">{{description | formatCode}}</span>
+       </div>
+
+      </label>
+      <i *ngIf="response.valid && viewCorrectAnswer"
+      class="pi pi-check scalein animation-duration-2000"
+      style="font-size: 1.5rem; color:rgb(24, 199, 24)"
+      ></i>
+  </div>
+
+
+</p-fieldset>
+<p-toast position="center"></p-toast>
+<div class="flex flex-wrap card-container blue-container gap-2 ml-3 mt-1">
+  <p-button label="Validate"
+            icon="pi pi-check"
+            [disabled]="!selectedAnswers.length || viewCorrectAnswer"
+            styleClass="p-button p-button-sm"
+            (onClick)="validateResponse()">
+  </p-button>
+  <p-button *ngIf="!activateNextQuestion()"
+            label="Next"
+            icon="pi pi-arrow-right"
+            styleClass="p-button p-button-sm p-button-success"
+            [disabled]="activateNextQuestion()"
+            (onClick)="nextQuestion()"></p-button>
+  </div>
+</div>
+<div class="col-2 mt-5">
+  <div class="m-1">
+    <app-summary></app-summary>
+  </div>
+  <div class="m-1">
+    <app-info-question class="mt-3"></app-info-question>
+  </div>
+</div>

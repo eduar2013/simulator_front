@@ -1,0 +1,15 @@
+<h4>Number of Questions: {{numberOfQuestion}}</h4>
+<div class="col-4">
+  <p-slider [(ngModel)]="numberOfQuestion" [min]="5" [max]="50"></p-slider>
+</div>
+<h4>Exam topics</h4>
+
+<div class="grid grid-nogutter">
+  <div *ngFor="let topic of examTopics" class="field-checkbox col-4" >
+      <p-checkbox name="group2" value="topic" [value]="topic"  [(ngModel)]="selectedTopics" [inputId]="topic.key"></p-checkbox>
+      <label [for]="topic.key">{{topic.name}}</label>
+  </div>
+</div>
+
+
+<p-button label="Start"  styleClass="p-button-sm" (click)="starExam()"></p-button>
