@@ -37,6 +37,7 @@
           <p-table [value]="answers.controls">
             <ng-template pTemplate="header">
                 <tr>
+                    <th>Option</th>
                     <th>Answer</th>
                     <th>Valid</th>
                     <th>Add/Remove</th>
@@ -46,12 +47,17 @@
               <ng-container formArrayName="answers">
                 <tr [formGroupName]="rowIndex">
                     <td>
-                          <input class="form-control form-control-sm" type="text" id="answer"
-                            formControlName="answer" />
+                      <input id="option" maxlength="1" size="2" type="text" formControlName="option"  pInputText>
+                    </td>
+                    <td>
+                      <textarea class="form-control form-control-sm" inputId="textarea" rows="2" style="resize: none;" cols="50" formControlName="description" pInputTextarea></textarea>
+
                       </td>
                       <td>
-                          <input class="form-control form-control-sm" type="text" id="valid"
-                            formControlName="valid" />
+                        <p-toggleButton   class="form-control form-control-sm"
+                        formControlName="valid" id="valid"
+                        onLabel="true" offLabel="false"></p-toggleButton>
+
                       </td>
                       <td>
 
@@ -73,14 +79,8 @@
           </ng-template>
         </p-table>
       </div>
-
-
-
-
-          <div>
-          <button type="submit">Create</button>
-          </div>
-
+      <div class="col-1">
+        <p-button label="Submit"></p-button>
+      </div>
   </form>
-
 </p-panel>

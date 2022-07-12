@@ -2,9 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QuestionInterface } from '../interfaces/question.interface';
 
-import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
-
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +19,14 @@ export class QuestionService {
   questionObj:QuestionInterface = {};
   selectedQuestion:number[] = [];
   numberQuestionSelected: number = 0;
+
+
+  saveQuestion(question : QuestionInterface){
+    this.http.put<QuestionInterface>(`http://localhost:8080/api/question/save`,question)
+    .subscribe(resp=>{
+      console.log(resp);
+    });
+  }
 
  getAllQuestion(){
 

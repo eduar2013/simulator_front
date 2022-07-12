@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { topic } from '../../interfaces/topic.interface';
+import { QuestionInterface } from '../../../simulator/interfaces/question.interface';
+import { Answer } from '../../interfaces/answer.model';
+import { QuestionService } from '../../../simulator/services/question.service';
+
 
 
 
@@ -11,6 +15,9 @@ import { topic } from '../../interfaces/topic.interface';
 })
 export class CreateComponent implements OnInit {
 
+  question:QuestionInterface = {};
+  qanswers:Answer[] = [];
+
   topics:topic[] = [];
 
 
@@ -19,19 +26,27 @@ export class CreateComponent implements OnInit {
     text_question:'',
     selectedTopic:'',
     objective:'',
-    answers: this.fb.array([this.addAnswerFormGroup()])
+    answers: this.fb.array([this.addAnswerFormGroup(
+      {option:'A',description:'',valid:false}),
+      this.addAnswerFormGroup(
+      {option:'B',description:'',valid:false}),
+      this.addAnswerFormGroup(
+      {option:'C',description:'',valid:false}),
+      this.addAnswerFormGroup(
+      {option:'D',description:'',valid:false})])
   });
 
-  addAnswerFormGroup(): FormGroup {
+  addAnswerFormGroup(ans: Answer): FormGroup {
     return this.fb.group({
-      answer:'w',
-      valid:'d'
+      option:ans.option,
+      description:ans.description,
+      valid:ans.valid
     })
   }
 
   addAnswerClick():void {
     (<FormArray>this.createForm.get("answers")).push(
-      this.addAnswerFormGroup()
+      this.addAnswerFormGroup({description:'',valid:false, option:''})
     )
   }
 
@@ -43,8 +58,36 @@ export class CreateComponent implements OnInit {
 
 
   onSubmit(form:FormGroup){
-    console.log('objective:',form.value.name);
+    console.log('number:',form.value.number);
     console.log("text_question:", form.value.text_question);
+    console.log("selectedTopic:",form.value.selectedTopic);
+    console.log("objective",form.value.objective);
+    console.log("answers", form.value.answers);
+
+
+    var topicSelected = this.topics.find(e => e.code == form.value.selectedTopic);
+
+    this.question.number = form.value.number;
+    this.question.text_question = form.value.text_question.split("\n");
+    this.question.objective = form.value.objective;
+    this.question.topic = {description:topicSelected?.topic, code:form.value.selectedTopic};
+    this.question.answers = [];
+
+    form.value.answers.forEach((e:Answer) => {
+
+      this.question.answers?.push({
+        option:e.option,
+        description:e.description!.split("\n"),
+        valid:e.valid
+      })
+    });
+
+    console.log(this.question);
+
+    this.questionService.saveQuestion(this.question);
+
+
+
   }
 
 
@@ -52,7 +95,7 @@ export class CreateComponent implements OnInit {
     return this.createForm.controls["answers"] as FormArray;
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private questionService:QuestionService) {
     this.topics = [
       {topic: 'Java Data Types', code: '1'},
       {topic: 'Controlling Program Flow', code: '2'},
@@ -68,6 +111,8 @@ export class CreateComponent implements OnInit {
       {topic: 'Localization', code: '12'},
       {topic: 'Annotations', code: '13'},
     ]
+
+
   }
 
   ngOnInit(): void {

@@ -16,6 +16,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SliderModule } from 'primeng/slider';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ToastModule } from 'primeng/toast';
+import { ToggleButtonModule}  from 'primeng/togglebutton';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ToastModule } from 'primeng/toast';
     RadioButtonModule,
     SliderModule,
     TabMenuModule,
-    ToastModule
+    ToastModule,
+    ToggleButtonModule
   ]
 })
 export class PrimeNgModule { }
